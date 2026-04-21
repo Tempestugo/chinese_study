@@ -20,11 +20,11 @@ public class WordReviewService {
                 .orElseThrow(() -> new RuntimeException("Review não encontrada"));
 
         if (qualidade == 5) {
-            double ez = (int) (review.getEaseFactor()+0.1);
+            double ez = review.getEaseFactor()+0.1;
             review.setIntervalDays((int) (review.getIntervalDays()*ez));
 
         } else if (qualidade == 3) {
-            double easeFactor = (int) (review.getEaseFactor() - 0.1);
+            double easeFactor = review.getEaseFactor() - 0.1;
             review.setEaseFactor((double) easeFactor);
 
 
@@ -37,4 +37,13 @@ public class WordReviewService {
         review.setNextReviewDate(LocalDate.now().plusDays(review.getIntervalDays()));
         return repository.save(review);
     }
+    public WordReview initReview(Word word) {
+        WordReview review = new WordReview();
+        review.setWord(word);
+        review.setIntervalDays(1);
+        review.setEaseFactor(2.5);
+        review.setNextReviewDate(LocalDate.now().plusDays(1));
+        return repository.save(review);
+    }
+
 }
